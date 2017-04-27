@@ -75,6 +75,9 @@ AFRAME.registerComponent('orbit-controls', {
         maxDistance: {
             default: Infinity
         },
+        reverseDrag: {
+            default: false
+        }
     },
 
     /**
@@ -582,10 +585,17 @@ AFRAME.registerComponent('orbit-controls', {
         this.rotateDelta.subVectors( this.rotateEnd, this.rotateStart );
 
         var element = this.canvasEl === document ? this.canvasEl.body : this.canvasEl;
-        // rotating across whole screen goes 360 degrees around
-        this.rotateLeft( 2 * Math.PI * this.rotateDelta.x / element.clientWidth * this.data.rotateSpeed );
-        // rotating up and down along whole screen attempts to go 360, but limited to 180
-        this.rotateUp( 2 * Math.PI * this.rotateDelta.y / element.clientHeight * this.data.rotateSpeed );
+        if (this.data.reverseDrag) {
+            this.rotateLeft( -(2 * Math.PI * this.rotateDelta.x / element.clientWidth * this.data.rotateSpeed) );
+
+            // rotating up and down along whole screen attempts to go 360, but limited to 180
+            this.rotateUp( -(2 * Math.PI * this.rotateDelta.y / element.clientHeight * this.data.rotateSpeed) );
+        } else {
+            this.rotateLeft( 2 * Math.PI * this.rotateDelta.x / element.clientWidth * this.data.rotateSpeed );
+
+            // rotating up and down along whole screen attempts to go 360, but limited to 180
+            this.rotateUp( 2 * Math.PI * this.rotateDelta.y / element.clientHeight * this.data.rotateSpeed );
+        }
         this.rotateStart.copy( this.rotateEnd );
         this.updateView();
     },
