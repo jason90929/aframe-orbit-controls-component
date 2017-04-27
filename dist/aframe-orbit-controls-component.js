@@ -553,12 +553,19 @@ AFRAME.registerComponent('orbit-controls', {
 
 		var element = this.canvasEl === document ? this.canvasEl.body : this.canvasEl;
 
-		// rotating across whole screen goes 360 degrees around
-		this.rotateLeft( 2 * Math.PI * this.rotateDelta.x / element.clientWidth * this.data.rotateSpeed );
+      if (this.data.reverseDrag) {
+        // rotating across whole screen goes 360 degrees around
+        this.rotateLeft( -(2 * Math.PI * this.rotateDelta.x / element.clientWidth * this.data.rotateSpeed) );
 
-		// rotating up and down along whole screen attempts to go 360, but limited to 180
-		this.rotateUp( 2 * Math.PI * this.rotateDelta.y / element.clientHeight * this.data.rotateSpeed );
+        // rotating up and down along whole screen attempts to go 360, but limited to 180
+        this.rotateUp( -(2 * Math.PI * this.rotateDelta.y / element.clientHeight * this.data.rotateSpeed) );
+      } else {
+        // rotating across whole screen goes 360 degrees around
+        this.rotateLeft( 2 * Math.PI * this.rotateDelta.x / element.clientWidth * this.data.rotateSpeed );
 
+        // rotating up and down along whole screen attempts to go 360, but limited to 180
+        this.rotateUp( 2 * Math.PI * this.rotateDelta.y / element.clientHeight * this.data.rotateSpeed );
+      }
 		this.rotateStart.copy( this.rotateEnd );
 
 		this.updateView();
@@ -658,11 +665,13 @@ AFRAME.registerComponent('orbit-controls', {
 
         var element = this.canvasEl === document ? this.canvasEl.body : this.canvasEl;
         if (this.data.reverseDrag) {
+          // rotating across whole screen goes 360 degrees around
             this.rotateLeft( -(2 * Math.PI * this.rotateDelta.x / element.clientWidth * this.data.rotateSpeed) );
 
             // rotating up and down along whole screen attempts to go 360, but limited to 180
             this.rotateUp( -(2 * Math.PI * this.rotateDelta.y / element.clientHeight * this.data.rotateSpeed) );
         } else {
+          // rotating across whole screen goes 360 degrees around
             this.rotateLeft( 2 * Math.PI * this.rotateDelta.x / element.clientWidth * this.data.rotateSpeed );
 
             // rotating up and down along whole screen attempts to go 360, but limited to 180
