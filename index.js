@@ -821,7 +821,7 @@ AFRAME.registerComponent('orbit-controls', {
 		offset.applyQuaternion( quat ); // rotate offset to "y-axis-is-up" space
 		this.spherical.setFromVector3( offset ); // angle from z-axis around y-axis
 
-		if ( this.data.autoRotate && this.state === this.STATE.NONE ) this.rotateLeft( this.getAutoRotationAngle() );
+		if ( this.data.autoRotate && this.state === this.STATE.NONE ) this.rotateLeft( -this.getAutoRotationAngle() );
 
 		this.spherical.theta += this.sphericalDelta.theta;
 		this.spherical.phi += this.sphericalDelta.phi;
